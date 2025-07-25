@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách tin tức</title>
+  <style>
+    .news-list {
+      max-width: 1000px;
+      margin: 30px auto;
+    }
+    .news-item {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      gap: 20px;
+    }
+    .news-item img {
+      width: 160px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .news-content {
+      flex: 1;
+    }
+    .news-item h3 {
+      margin: 0 0 5px;
+    }
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">📰 Danh sách tin tức</h1>
+  <div class="news-list" id="news-list">
+    <!-- Tin tức sẽ được render ở đây -->
+  </div>
+
+  <script>
+    async function fetchNews() {
+      try {
+        const res = await fetch("https://organicfarm.onrender.com/new/get-all-news");
+        const result = await res.json();
+        const news = result.news || [];
+
+        const list = document.getElementById("news-list");
+        list.innerHTML = news.map(item => `
+          <div class="news-item" data-id="${item._id}">
+            <img src="${item.thumbnail}" alt="Ảnh tin tức" />
+            <div class="news-content">
+              <h3>${item.title}</h3>
+              <p>${item.description}</p>
+              <a href="pages/resources/detailnew.html?slug=${item.slug}">>> Xem chi tiết</a>
+            </div>
+            <button class="delete-btn" onclick="deleteNews('${item._id}')">🗑 Xoá</button>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.error("Lỗi lấy danh sách:", err);
+        alert("Không thể lấy danh sách tin tức.");
+      }
+    }
+
+    async function deleteNews(id) {
+  console.log("📌 ID cần xoá:", id); // ✅ In ID ra console
+
+  if (!confirm("Bạn có chắc chắn muốn xoá tin này không?")) return;
+
+  try {
+    const res = await fetch(`https://organicfarm.onrender.com/new/${id}`, {
+      method: "DELETE"
+    });
+
+    if (res.ok) {
+      alert("🟢 Đã xoá thành công!");
+      document.querySelector(`[data-id="${id}"]`).remove();
+    } else {
+      const errorData = await res.json();
+      console.error("🔴 Xoá thất bại. Server trả về:", errorData);
+      alert("🔴 Xoá thất bại!");
+    }
+  } catch (err) {
+    console.error("Lỗi xoá:", err);
+    alert("Không thể kết nối để xoá tin.");
+  }
+}
+
+    fetchNews();
+  </script>
+</body>
+</html>

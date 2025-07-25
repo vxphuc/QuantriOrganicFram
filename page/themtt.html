@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+</head>
+<body>
+    <form action="submit.php" method="POST">
+        <label for="title">title: </label>
+        <input type="text" id="title" name="title" >
+        <br>
+        <label for="decription">decription:</label>
+        <input type="text" id="decription" name="decription" >
+        <br>
+        <input type="file" name="image" id="image" enctype="multipart/form-data">
+        <br>
+        <textarea id="editor"></textarea>
+        <br>
+        <input id="submit" type="submit" value="Submit">
+    </form>
+    <a href="../index.html">Quay lại trang chủ</a>
+    <script src="../js/new.js"></script>
+    <script>
+    let editorInstance;
+    ClassicEditor
+      .create(document.querySelector('#editor'))
+      .then(editor => {
+        editorInstance = editor;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    document.getElementById('myForm').onsubmit = function(e) {
+      e.preventDefault();
+      var data = editorInstance.getData();
+      alert('Nội dung nhập: ' + data);
+    };
+  </script>
+</body>
+</html>
