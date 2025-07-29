@@ -90,7 +90,7 @@
   if (!confirm("Bạn có chắc chắn muốn xoá tin này không?")) return;
 
   try {
-    const res = await fetch(`https://organicfarm.onrender.com/new/${id}`, {
+    const res = await fetch(`https://organicfarm.onrender.com/new/delete-news/${id}`, {
       method: "DELETE"
     });
 
