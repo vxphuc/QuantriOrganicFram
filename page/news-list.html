@@ -39,10 +39,22 @@
       padding: 5px 10px;
       cursor: pointer;
     }
+    .detailpress-back{
+    margin: 20px;
+    text-align: center;
+}
+.detailpress-back a{
+    text-decoration: none;
+    font-size: 18px;
+    color: rgb(13,127,64);
+}
   </style>
 </head>
 <body>
   <h1 style="text-align:center;">📰 Danh sách tin tức</h1>
+  <div class="detailpress-back">
+        <a href="../index.html" class="detailpress-back-link">&lt; Quay lại</a>
+    </div>
   <div class="news-list" id="news-list">
     <!-- Tin tức sẽ được render ở đây -->
   </div>
@@ -61,7 +73,7 @@
             <div class="news-content">
               <h3>${item.title}</h3>
               <p>${item.description}</p>
-              <a href="pages/resources/detailnew.html?slug=${item.slug}">>> Xem chi tiết</a>
+              <a href="../page/detailnew.html?slug=${item.slug}">>> Xem chi tiết</a>
             </div>
             <button class="delete-btn" onclick="deleteNews('${item._id}')">🗑 Xoá</button>
           </div>
